@@ -102,28 +102,26 @@ class Upload(Command):
                 # it happened within 250 ms. So we wait until the reset should
                 # have already occured before we start scanning.
                 if platform.system() != 'Darwin':
-                    sleep(0.3)
-
-            elapsed = 0
-            enum_delay = 0.25
-            while elapsed < 10:
-                now = self.e.list_serial_ports()
-                diff = list(set(now) - set(before))
-                if diff:
-                    new_port = diff[0]
-                    break
-
-                before = now
-                sleep(enum_delay)
-                elapsed += enum_delay
-
-            if not new_port:
-                raise Abort("Couldn’t find a board on the selected port. "
-                            "Check that you have the correct port selected. "
-                            "If it is correct, try pressing the board's reset "
-                            "button after initiating the upload.")
-
-            port = new_port
+                    sleep(3) # originally 0.3
+                
+#            elapsed = 0
+#            enum_delay = 0.25
+#            while elapsed < 10:
+#                now = self.e.list_serial_ports()
+#                diff = list(set(now) - set(before))
+#                if diff:
+#                    new_port = diff[0]
+#                    break
+#                before = now
+#                sleep(enum_delay)
+#                elapsed += enum_delay
+            
+#            if not new_port:
+#                raise Abort("Couldn’t find a board on the selected port. "
+#                            "Check that you have the correct port selected. "
+#                            "If it is correct, try pressing the board's reset "
+#                            "button after initiating the upload.")
+#            port = new_port
 
         # call avrdude to upload .hex
         subprocess.call([
